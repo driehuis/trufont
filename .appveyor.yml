@@ -107,6 +107,7 @@ build_script:
 test_script:
   # Run the project tests
   - "set PYTHONPATH=Lib"
+  - pip install pytest
   - pytest
 
 after_test:
