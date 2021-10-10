@@ -1,5 +1,43 @@
-[tool.black]
-target-version = ["py36"]
+[tool.briefcase]
+project_name = "TruFont"
+bundle = "io.github.trufont"
+version = "0.6.7.0"
+url = "https://trufont.github.io/"
+license = "GNU General Public License v3 (GPLv3)"
+author = 'Adrien Tétar'
+author_email = "adri-from-59@hotmail.fr"
 
-[build-system]
-requires = ["setuptools>=30.3.0", "wheel", "setuptools_scm"]
+[tool.briefcase.app.trufont.document_type.ufo]
+description = "UFO fonts"
+
+[tool.briefcase.app.trufont]
+formal_name = "TruFont"
+description = "TruFont,  The truest font editor."
+icon = "Lib/trufont/resources/app"
+sources = ['Lib/trufont', 'Lib/defconQt', 'THANKS', 'COPYRIGHT']
+requires = [
+    'booleanOperations >= 0.7.0',
+    'defcon >= 0.6.0',
+    'fonttools[unicode,ufo,lxml,type1,woff] >= 4.0.0',
+    'hsluv >= 0.0.2',
+    'pyqt5 >= 5.5.0',
+    'ufo-extractor >= 0.3.0',
+    'ufo2ft >= 0.5.3',
+]
+
+[tool.briefcase.app.trufont.macOS]
+requires = ['pyobjc-framework-cocoa >= 6.2']
+
+[tool.briefcase.app.trufont.linux]
+requires = []
+system_requires = []
+
+[tool.briefcase.app.trufont.windows]
+requires = []
+
+# Mobile deployments
+[tool.briefcase.app.trufont.iOS]
+requires = []
+
+[tool.briefcase.app.trufont.android]
+requires = []

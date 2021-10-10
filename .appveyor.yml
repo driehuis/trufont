@@ -99,10 +99,11 @@ install:
   - activate test-environment
   - conda install pyqt
   - pip install -r requirements.txt
+  - pip install briefcase
 
 build_script:
   # Build the compiled extension
-  - python setup.py build
+  - briefcase create
 
 test_script:
   # Run the project tests
@@ -112,10 +113,13 @@ test_script:
 
 after_test:
   # If tests are successful, create binary packages for the project.
-  - python setup.py bdist_wheel
-  - python setup.py bdist_wininst
+  #- python setup.py bdist_wheel
+  #- python setup.py bdist_wininst
   #- python setup.py bdist_msi
-  - ps: "ls dist"
+  - briefcase update
+  - briefcase build
+  - briefcase package
+  - ps: "ls dist windows"
 
 artifacts:
   # Archive the generated packages in the ci.appveyor.com build report.
