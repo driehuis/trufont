@@ -119,11 +119,11 @@ after_test:
   - briefcase update
   - briefcase build
   - briefcase package
-  - ps: "ls dist windows"
+  - ps: "ls windows"
 
 artifacts:
   # Archive the generated packages in the ci.appveyor.com build report.
-  - path: dist\*
+  - path: windows\*
 
 #on_success:
 #  - TODO: upload the content of dist/*.whl to a public wheelhouse
