@@ -33,7 +33,10 @@ except ImportError:
     # Backwards compatibility - importlib.metadata was added in Python 3.8
     import importlib_metadata
 app_module = sys.modules['__main__'].__package__
-metadata = importlib_metadata.metadata(app_module)
+try:
+    metadata = importlib_metadata.metadata(app_module)
+except importlib_metadata.PackageNotFoundError:
+    metadata = {}
 PATH = os.path.abspath(os.path.join(modulePath, "../../.."))
 if 'Briefcase-Version' in metadata:
     PATH = os.path.join(PATH, "app")
