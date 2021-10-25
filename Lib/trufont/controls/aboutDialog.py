@@ -1,6 +1,8 @@
 import os
 import platform
+import re
 import subprocess
+import sys
 
 from PyQt5.Qt import PYQT_VERSION_STR, QT_VERSION_STR
 from PyQt5.QtCore import QEvent, QSize, Qt
@@ -20,14 +22,28 @@ from PyQt5.QtWidgets import (
 from trufont import __file__ as modulePath
 from trufont import __version__
 
+gitShortLog = gitShortHash = licenseText = thanksText = ""
+#from PyQt5.QtCore import pyqtRemoveInputHook
+#from pdb import set_trace
+#pyqtRemoveInputHook()
+#set_trace()
 try:
-    PATH = os.path.abspath(os.path.join(modulePath, "../../.."))
-    gitShortHash = subprocess.check_output(
-        ["git", "rev-parse", "--short", "HEAD"], cwd=PATH, stderr=subprocess.DEVNULL
-    ).decode()
-    gitShortLog = subprocess.check_output(
-        ["git", "shortlog", "-sn"], cwd=PATH, stderr=subprocess.DEVNULL
-    ).decode()
+    from importlib import metadata as importlib_metadata
+except ImportError:
+    # Backwards compatibility - importlib.metadata was added in Python 3.8
+    import importlib_metadata
+app_module = sys.modules['__main__'].__package__
+metadata = importlib_metadata.metadata(app_module)
+PATH = os.path.abspath(os.path.join(modulePath, "../../.."))
+if 'Briefcase-Version' in metadata:
+    PATH = os.path.join(PATH, "app")
+    gitShortHash = "briefcase"
+    try:
+        with open(os.path.join(PATH, "AUTHORS"), encoding="utf-8") as fd:
+            gitShortLog = fd.read()
+    except Exception:
+        pass
+try:
     with open(os.path.join(PATH, "COPYRIGHT"), encoding="utf-8") as fd:
         licenseText = fd.read()
     licenseText = "<p>{}</p>".format(
@@ -38,8 +54,14 @@ try:
     thanksText = "<p>{}</p>".format(
         thanksText.replace("\n\n", "</p><p>").replace("\n–", "<br>–").replace("\n", " ")
     )
+    gitShortHash = subprocess.check_output(
+        ["git", "rev-parse", "--short", "HEAD"], cwd=PATH, stderr=subprocess.DEVNULL
+    ).decode()
+    gitShortLog = subprocess.check_output(
+        ["git", "shortlog", "-sn"], cwd=PATH, stderr=subprocess.DEVNULL
+    ).decode()
 except Exception:
-    gitShortHash = gitShortLog = licenseText = thanksText = ""
+    pass
 
 
 class AboutDialog(QDialog):
@@ -154,7 +176,7 @@ class AboutDialog(QDialog):
     def authors(self):
         for line in gitShortLog.splitlines():
             elem = line.split("\t")[1]
-            if not elem or elem.startswith("=?") or elem.endswith("bot"):
+            if not elem or elem.startswith("=?") or re.search(r"bot\]?$", elem):
                 continue
             yield elem
 
