@@ -41,6 +41,8 @@ PATH = os.path.abspath(os.path.join(modulePath, "../../.."))
 if 'Briefcase-Version' in metadata:
     PATH = os.path.join(PATH, "app")
     gitShortHash = "briefcase"
+    if __version__ == '0.0.0':
+        __version__ = metadata['Version']
     try:
         with open(os.path.join(PATH, "AUTHORS"), encoding="utf-8") as fd:
             gitShortLog = fd.read()
