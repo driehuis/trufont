@@ -1,7 +1,7 @@
 [tool.briefcase]
-project_name = "TruFont-preview"
+project_name = "TruFont"
 bundle = "io.github.trufont"
-version = "0.6.6.1"
+version = "0.1.1.1"
 url = "https://trufont.github.io/"
 license = "GNU General Public License v3 (GPLv3)"
 author = 'Adrien Tétar'
