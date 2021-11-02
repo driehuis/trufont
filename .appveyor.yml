@@ -116,7 +116,8 @@ after_test:
   #- python setup.py bdist_wheel
   #- python setup.py bdist_wininst
   #- python setup.py bdist_msi
-  - del /s \qt5bluetooth.dll
+  - del /s %MINICONDA%\envs\test-environment\qt5bluetooth.dll
+  - del /s C:\projects\trufont-win\qt5bluetooth.dll
   - briefcase update
   - briefcase build
   - briefcase package
