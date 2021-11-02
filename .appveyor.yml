@@ -116,6 +116,7 @@ after_test:
   #- python setup.py bdist_wheel
   #- python setup.py bdist_wininst
   #- python setup.py bdist_msi
+  - del /s \qt5bluetooth.dll
   - briefcase update
   - briefcase build
   - briefcase package
